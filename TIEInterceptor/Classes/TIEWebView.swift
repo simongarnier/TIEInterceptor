@@ -10,7 +10,7 @@ import Foundation
 
 @objc public class TIEWebView: UIWebView, UIWebViewDelegate {
     
-    var interceptors:[(TIEMatchable, (TIEParsedURL) -> ())] = []
+    var interceptors:[(TIEMatcher, (TIEParsedURL) -> ())] = []
     
     private var externalDelegate:UIWebViewDelegate?
     
@@ -23,12 +23,12 @@ import Foundation
         }
     }
     
-    public func addInterceptors(interceptors: (TIEMatchable, (TIEParsedURL) -> ())...){
+    public func addInterceptors(interceptors: (TIEMatcher, (TIEParsedURL) -> ())...){
         self.interceptors.appendContentsOf(interceptors)
         super.delegate = self
     }
     
-    @objc public func addInterceptor(matcher: TIEMatchable, callback:(TIEParsedURL) -> ()){
+    @objc public func addInterceptor(matcher: TIEMatcher, callback:(TIEParsedURL) -> ()){
         self.interceptors.append((matcher, callback))
         super.delegate = self
     }
