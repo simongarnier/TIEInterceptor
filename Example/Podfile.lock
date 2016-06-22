@@ -1,0 +1,16 @@
+PODS:
+  - TIEInterceptor (0.1.0)
+
+DEPENDENCIES:
+  - TIEInterceptor (from `../`)
+
+EXTERNAL SOURCES:
+  TIEInterceptor:
+    :path: ../
+
+SPEC CHECKSUMS:
+  TIEInterceptor: 79651678492916632fb46a32188debe6368b7ed4
+
+PODFILE CHECKSUM: a7e94c8055d6b169bc21b8049bd70be3b6ba536d
+
+COCOAPODS: 1.0.1
