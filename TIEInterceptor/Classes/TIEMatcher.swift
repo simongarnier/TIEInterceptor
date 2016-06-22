@@ -8,39 +8,39 @@
 
 import Foundation
 
-public protocol TIEMatchable {
+@objc public protocol TIEMatchable {
     func match(url: TIEParsedURL) -> Bool
 }
 
-public struct TIEMatcher {
+@objc public class TIEMatcher: NSObject {
     
-    public class Leaf{
+    @objc public class Leaf: NSObject{
         let pattern:String
         public init(pattern:String){
             self.pattern = pattern
         }
     }
 
-    public class Node{
+    @objc public class Node: NSObject{
         let childlren:[TIEMatchable]
         public init(childlren: [TIEMatchable]){
             self.childlren = childlren
         }
     }
 
-    public class Scheme : Leaf, TIEMatchable{
+    @objc public class Scheme: Leaf, TIEMatchable {
         public func match(url: TIEParsedURL) -> Bool {
             return url.scheme == pattern
         }
     }
 
-    public class Host : Leaf, TIEMatchable{
+    @objc public class Host : Leaf, TIEMatchable{
         public func match(url: TIEParsedURL) -> Bool {
             return url.host == pattern
         }
     }
 
-    public class Param: TIEMatchable{
+    @objc public class Param: NSObject, TIEMatchable{
         let key:String
         let value:String?
 
@@ -67,7 +67,7 @@ public struct TIEMatcher {
         }
     }
 
-    public class Or: Node, TIEMatchable{
+    @objc public class Or: Node, TIEMatchable{
         public func match(url: TIEParsedURL) -> Bool {
             return childlren.reduce(false) { (memo, tie) -> Bool in
                 memo || tie.match(url)
@@ -75,7 +75,7 @@ public struct TIEMatcher {
         }
     }
 
-    public class And: Node, TIEMatchable{
+    @objc public class And: Node, TIEMatchable{
         public func match(url: TIEParsedURL) -> Bool {
             return childlren.reduce(true) { (memo, tie) -> Bool in
                 memo && tie.match(url)

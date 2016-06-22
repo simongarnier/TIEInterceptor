@@ -8,15 +8,44 @@
 
 import Foundation
 
-public class TIEWebView: UIWebView {
+@objc public class TIEWebView: UIWebView, UIWebViewDelegate {
     
     var interceptors:[(TIEMatchable, (TIEParsedURL) -> ())] = []
     
-    public func addInterceptors(interceptors: (TIEMatchable, (TIEParsedURL) -> ())...){
-        self.interceptors.appendContentsOf(interceptors)
+    private var externalDelegate:UIWebViewDelegate?
+    
+    @objc override public var delegate:UIWebViewDelegate?{
+        get{
+            return externalDelegate
+        }
+        set(d){
+            self.externalDelegate = d
+        }
     }
     
-    override public func loadRequest(request: NSURLRequest) {
+    public func addInterceptors(interceptors: (TIEMatchable, (TIEParsedURL) -> ())...){
+        self.interceptors.appendContentsOf(interceptors)
+        super.delegate = self
+    }
+    
+    @objc public func addInterceptor(matcher: TIEMatchable, callback:(TIEParsedURL) -> ()){
+        self.interceptors.append((matcher, callback))
+        super.delegate = self
+    }
+    
+    public func webViewDidStartLoad(webView: UIWebView) {
+        externalDelegate?.webViewDidStartLoad?(webView)
+    }
+    
+    public func webViewDidFinishLoad(webView: UIWebView) {
+        externalDelegate?.webViewDidFinishLoad?(webView)
+    }
+    
+    public func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        externalDelegate?.webView?(webView, didFailLoadWithError: error)
+    }
+    
+    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if let url = request.URL{
             let parsedURL = TIEParsedURL.init(url: url)
             for interceptor in interceptors {
@@ -24,10 +53,14 @@ public class TIEWebView: UIWebView {
                 if matcher.match(parsedURL){
                     // only invoke the callback of the first matched interceptor
                     callback(parsedURL)
-                    return
+                    return false
                 }
             }
         }
-        super.loadRequest(request)
+        if let deleteResult = externalDelegate?.webView?(webView, shouldStartLoadWithRequest: request, navigationType: navigationType) {
+            return deleteResult
+        }else{
+            return true
+        }
     }
 }

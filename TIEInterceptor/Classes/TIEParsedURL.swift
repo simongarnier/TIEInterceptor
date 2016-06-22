@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class TIEParsedURL{
+@objc public class TIEParsedURL: NSObject{
     let url:NSURL
     var params:[String:String]? = nil
     let scheme:String?
@@ -18,6 +18,7 @@ public class TIEParsedURL{
         self.url = url
         self.host = self.url.host
         self.scheme = self.url.scheme
+        super.init()
         self.params = paramsAsDict(url.query)
     }
     
