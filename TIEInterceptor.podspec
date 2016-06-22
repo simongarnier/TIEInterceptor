@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TIEInterceptor'
-  s.version          = '0.3.0'
+  s.version          = '0.4.0'
   s.summary          = 'A lightweight DSL to write NSURL interception'
 
 # This description is used to generate tags and improve search results.
