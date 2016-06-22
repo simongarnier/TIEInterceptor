@@ -8,12 +8,12 @@
 
 import Foundation
 
-public protocol TIEMatcher {
+public protocol TIEMatchable {
     func match(url: TIEParsedURL) -> Bool
 }
 
-public struct Matcher {
-
+public struct TIEMatcher {
+    
     public class Leaf{
         let pattern:String
         public init(pattern:String){
@@ -22,25 +22,25 @@ public struct Matcher {
     }
 
     public class Node{
-        let childlren:[TIEMatcher]
-        public init(childlren: [TIEMatcher]){
+        let childlren:[TIEMatchable]
+        public init(childlren: [TIEMatchable]){
             self.childlren = childlren
         }
     }
 
-    public class Scheme : Leaf, TIEMatcher{
+    public class Scheme : Leaf, TIEMatchable{
         public func match(url: TIEParsedURL) -> Bool {
             return url.scheme == pattern
         }
     }
 
-    public class Host : Leaf, TIEMatcher{
+    public class Host : Leaf, TIEMatchable{
         public func match(url: TIEParsedURL) -> Bool {
             return url.host == pattern
         }
     }
 
-    public class Param: TIEMatcher{
+    public class Param: TIEMatchable{
         let key:String
         let value:String?
 
@@ -67,7 +67,7 @@ public struct Matcher {
         }
     }
 
-    public class Or: Node, TIEMatcher{
+    public class Or: Node, TIEMatchable{
         public func match(url: TIEParsedURL) -> Bool {
             return childlren.reduce(false) { (memo, tie) -> Bool in
                 memo || tie.match(url)
@@ -75,7 +75,7 @@ public struct Matcher {
         }
     }
 
-    public class And: Node, TIEMatcher{
+    public class And: Node, TIEMatchable{
         public func match(url: TIEParsedURL) -> Bool {
             return childlren.reduce(true) { (memo, tie) -> Bool in
                 memo && tie.match(url)

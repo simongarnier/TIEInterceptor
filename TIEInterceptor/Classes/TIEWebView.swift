@@ -8,28 +8,15 @@
 
 import Foundation
 
-public class TIEWebView: UIWebView, UIWebViewDelegate {
-    var interceptors:[(TIEMatcher, (TIEParsedURL) -> ())] = []
-    public var externalDelegate: UIWebViewDelegate? = nil
+public class TIEWebView: UIWebView {
     
-    public func addInterceptor(matcher: TIEMatcher, callback: (TIEParsedURL) -> ()){
-        interceptors.append((matcher, callback))
-        super.delegate = self
+    var interceptors:[(TIEMatchable, (TIEParsedURL) -> ())] = []
+    
+    public func addInterceptors(interceptors: (TIEMatchable, (TIEParsedURL) -> ())...){
+        self.interceptors.appendContentsOf(interceptors)
     }
     
-    public func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        externalDelegate?.webView?(webView, didFailLoadWithError: error)
-    }
-    
-    public func webViewDidFinishLoad(webView: UIWebView) {
-        externalDelegate?.webViewDidFinishLoad?(webView)
-    }
-    
-    public func webViewDidStartLoad(webView: UIWebView) {
-        externalDelegate?.webViewDidStartLoad!(webView)
-    }
-    
-    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    override public func loadRequest(request: NSURLRequest) {
         if let url = request.URL{
             let parsedURL = TIEParsedURL.init(url: url)
             for interceptor in interceptors {
@@ -37,11 +24,10 @@ public class TIEWebView: UIWebView, UIWebViewDelegate {
                 if matcher.match(parsedURL){
                     // only invoke the callback of the first matched interceptor
                     callback(parsedURL)
-                    return false
+                    return
                 }
             }
         }
-        return true
+        super.loadRequest(request)
     }
-
 }
