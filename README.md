@@ -5,11 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/TIEInterceptor.svg?style=flat)](http://cocoapods.org/pods/TIEInterceptor)
 [![Platform](https://img.shields.io/cocoapods/p/TIEInterceptor.svg?style=flat)](http://cocoapods.org/pods/TIEInterceptor)
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
+A lightweight DSL to write redirection interception in a web view.
 
 ## Installation
 
