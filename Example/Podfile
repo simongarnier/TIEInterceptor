@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'TIEInterceptor_Example' do
+  pod 'TIEInterceptor', :path => '../'
+
+  target 'TIEInterceptor_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
