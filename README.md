@@ -1,6 +1,5 @@
 # TIEInterceptor
 
-[![CI Status](http://img.shields.io/travis/Simon Garnier/TIEInterceptor.svg?style=flat)](https://travis-ci.org/Simon Garnier/TIEInterceptor)
 [![Version](https://img.shields.io/cocoapods/v/TIEInterceptor.svg?style=flat)](http://cocoapods.org/pods/TIEInterceptor)
 [![License](https://img.shields.io/cocoapods/l/TIEInterceptor.svg?style=flat)](http://cocoapods.org/pods/TIEInterceptor)
 [![Platform](https://img.shields.io/cocoapods/p/TIEInterceptor.svg?style=flat)](http://cocoapods.org/pods/TIEInterceptor)
