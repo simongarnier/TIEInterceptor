@@ -6,6 +6,8 @@
 
 A lightweight DSL to write redirection interception in a web view.
 
+![A TIE Interceptor](http://vignette3.wikia.nocookie.net/starwars/images/6/65/Tieinter2.jpg)
+
 ## Installation
 
 TIEInterceptor is available through [CocoaPods](http://cocoapods.org). To install
