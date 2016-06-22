@@ -9,10 +9,10 @@
 import Foundation
 
 @objc public class TIEParsedURL: NSObject{
-    let url:NSURL
-    var params:[String:String]? = nil
-    let scheme:String?
-    let host:String?
+    @objc public let url:NSURL
+    @objc public var params:[String:String]? = nil
+    @objc public let scheme:String?
+    @objc public let host:String?
     
     public init(url:NSURL){
         self.url = url
